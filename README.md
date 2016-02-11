@@ -28,6 +28,6 @@ Avec ce code vous allez pouvoir jouer votre unique niveau.
 
 Ces deux codes sont des templates minimum. A vous de créer l'interface permettant de donner un nom au niveau, choisir un niveau, etc ...
 
-# Licence
+## Licence.
 
 La licence MIT donne à toute personne recevant le logiciel le droit illimité de l'utiliser, le copier, le modifier, le fusionner, le publier, le distribuer, le vendre et de changer sa licence. La seule obligation est de mettre le nom des auteurs avec la notice de copyright.
