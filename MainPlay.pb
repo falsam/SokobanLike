@@ -128,7 +128,7 @@ Repeat
     If Grid(\x, \y) = 2  
       Select \Direction
         Case 10 ;Pousser la caisse vers la gauche
-          If Player\x > 0 ;Le joueur ne doit pas essayer de pousser la caisee en 
+          If Player\x > 0 ;Le joueur ne doit pas en limite gauche du screen
             If Grid(\x - 1, \y) = 0
               Grid(\x, \y) = 0
               Grid(\x - 1 , \y) = 2
@@ -146,7 +146,7 @@ Repeat
           EndIf
           
         Case 11 ;Pousser la caisse vers la droite
-          If Player\x < 12 ;Le joueur est il en limite de screen ?
+          If Player\x < 12 ;Le joueur ne doit pas en limite droite du screen
             If Grid(\x + 1, \y) = 0 And Player\x < 12
               Grid(\x, \y) = 0
               Grid(\x + 1 , \y) = 2
@@ -164,7 +164,7 @@ Repeat
           EndIf
           
         Case 12 ;Pousser la caisse vers le bas
-          If Player\y < 12 ;Le joueur est il en limite de screen ?
+          If Player\y < 12 ;Le joueur ne doit pas en limite basse du screen
             If Grid(\x, \y + 1) = 0
               Grid(\x, \y) = 0
               Grid(\x, \y + 1) = 2
@@ -183,7 +183,7 @@ Repeat
           EndIf
           
         Case 13 ;Poussez la caisse vers le haut
-          If Player\y > 0 ; Le joueur ne doit pas  en limite haute du screen
+          If Player\y > 0 ;Le joueur ne doit pas en limite haute du screen
             If Grid(\x, \y - 1) = 0
               Grid(\x, \y) = 0
               Grid(\x, \y - 1) = 2
@@ -212,7 +212,7 @@ Repeat
   
 Until KeyboardPushed(#PB_Key_Escape)
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 212
-; FirstLine = 160
+; CursorPosition = 133
+; FirstLine = 116
 ; EnableUnicode
 ; EnableXP
