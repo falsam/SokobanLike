@@ -160,8 +160,6 @@ For x=0 To 12
   Next
 Next
 
-Debug Player\CountTargets
-
 CreateJSON(#JSONFile)
 
 ;Sauvegarde de la grille 
@@ -172,6 +170,7 @@ SaveJSON(#JSONFile, "grid.json")
 InsertJSONStructure(JSONValue(#JSONFile), Player, NewSprite)
 SaveJSON(#JSONFile, "gridsetup.json")
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 23
+; CursorPosition = 161
+; FirstLine = 132
 ; EnableUnicode
 ; EnableXP
