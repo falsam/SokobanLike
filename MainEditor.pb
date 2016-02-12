@@ -1,15 +1,27 @@
-﻿Enumeration
+﻿;Sobokan Like - Editeur de niveau
+;
+
+Enumeration
   #JSONFile
 EndEnumeration
 
 ;grille de 12 x 12 - Dimension d'une case 64 x 64
 Global Dim Grid(12, 12), GridWidth = 13*64, GridHeight = 13*64
 
+;La grille est composé de 169 cases
+;Chaque case contient une valeur correspondant à l'identificateur du sprite à afficher
+; 0 : De l'herbe (valeur par défaut)
+; 1 : Un mur
+; 2 : Une caisse à déplacer
+; 3 : Une caisse sur une cible 
+; 8 : Une cible
+
 ;Joueur
 Structure NewSprite
-  x.i 
-  y.i
-  Direction.i
+  x.i               ;Position x du joueur
+  y.i               ;Position y du joueur
+  Direction.i       ;Déplacement du joueur (Gauche=10, droite=11, bas=12, haut=13)
+  CountTargets.i    ;Nombre de cible crée par le joueur
 EndStructure
 Global Player.NewSprite
 
@@ -61,7 +73,6 @@ Else
   
   ;Pas de fichier présent
   Player\Direction = 11
-  
 EndIf
 
 ;Boucle evenementielle
@@ -100,7 +111,7 @@ Repeat
   EndIf
     
   ;-Création du décors
-  
+    
   ;Creation mur (Sprite id 1)
   If KeyboardReleased(#PB_Key_1) Or KeyboardReleased(#PB_Key_Pad1)
     Grid(Player\x, Player\y) = 1 
@@ -137,6 +148,20 @@ Until KeyboardPushed(#PB_Key_Escape)
 ;Sauvegarde de la grille et des parametres du joueur
 ;Le nom de sauvegarde est figé 
 ;Il est facile de créer une Interface pour saisir le nom du fichier
+
+;Combien de cibles crées ?
+Player\CountTargets = 0
+
+For x=0 To 12
+  For y=0 To 12
+    If Grid(x, y) = 8
+      Player\CountTargets + 1
+    EndIf
+  Next
+Next
+
+Debug Player\CountTargets
+
 CreateJSON(#JSONFile)
 
 ;Sauvegarde de la grille 
@@ -147,7 +172,6 @@ SaveJSON(#JSONFile, "grid.json")
 InsertJSONStructure(JSONValue(#JSONFile), Player, NewSprite)
 SaveJSON(#JSONFile, "gridsetup.json")
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 41
-; FirstLine = 22
+; CursorPosition = 23
 ; EnableUnicode
 ; EnableXP
