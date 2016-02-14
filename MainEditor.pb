@@ -29,13 +29,13 @@ Global Player.NewSprite
 InitSprite() : InitKeyboard() : InitMouse()
 
 ;Creation du screen
-OpenWindow(0, 0, 0, GridWidth, GridHeight, "Test", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
+OpenWindow(0, 0, 0, GridWidth, GridHeight, "", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, GridWidth, GridHeight)
 
 ;Chargement des sprites
 UsePNGImageDecoder()
 
-;Fond vert : Il doit porter l'identifiant 0 
+;Fond vert 
 LoadSprite(0, "assets\GroundGravel_Grass.png", #PB_Sprite_AlphaBlending)
 
 ;Mur
@@ -72,7 +72,7 @@ If ReadFile(#JSONFile, "grid.json")
 Else
   
   ;Pas de fichier présent
-  Player\Direction = 11
+  Player\Direction = 11 ;Vers la droite par défaut
 EndIf
 
 ;Boucle evenementielle
@@ -86,7 +86,7 @@ Repeat
     EndSelect  
   Until Event=0
   
-  FlipBuffers()
+  
   ClearScreen(RGB(101, 159, 62))
   ExamineKeyboard()
   
@@ -140,9 +140,10 @@ Repeat
   Next
   
   ;Affichage du joueur
-  SetWindowTitle(0, "Sobokan (" + Str(Player\x) + " - " + Str(Player\y) + ")")
+  SetWindowTitle(0, "Sobokan - Editeur de niveau (" + Str(Player\x) + " - " + Str(Player\y) + ")")
   DisplayTransparentSprite(Player\Direction, Player\x * 64, Player\y * 64)
   
+  FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape)
 
 ;Sauvegarde de la grille et des parametres du joueur
@@ -153,7 +154,13 @@ Until KeyboardPushed(#PB_Key_Escape)
 Player\CountTargets = 0
 
 For x=0 To 12
-  For y=0 To 12
+  For y=0 To 12    
+    ;Le gardien est il dans un espace dégagé
+    If x = Player\x And y = Player\y And (Grid(x, y) = 1 Or Grid(x, y) = 2)
+      MessageRequester("Information", "Le gardien ne se trouve pas dans un espace dégagé.")
+    EndIf
+    
+    ;Une a été crée
     If Grid(x, y) = 8
       Player\CountTargets + 1
     EndIf
@@ -162,7 +169,7 @@ Next
 
 CreateJSON(#JSONFile)
 
-;Sauvegarde de la grille 
+;Sauvegarde de la grille
 InsertJSONArray(JSONValue(#JSONFile), Grid())
 SaveJSON(#JSONFile, "grid.json")
 
@@ -170,7 +177,7 @@ SaveJSON(#JSONFile, "grid.json")
 InsertJSONStructure(JSONValue(#JSONFile), Player, NewSprite)
 SaveJSON(#JSONFile, "gridsetup.json")
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 161
-; FirstLine = 132
+; CursorPosition = 177
+; FirstLine = 131
 ; EnableUnicode
 ; EnableXP
