@@ -199,29 +199,29 @@ Procedure SpritesLoad()
   UsePNGImageDecoder()
   
   ;Fond vert 
-  LoadSprite(0, "assets\GroundGravel_Grass.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(0, "Assets\GroundGravel_Grass.png", #PB_Sprite_AlphaBlending)
   
   ;Mur
-  LoadSprite(1, "assets\WallRound_Black.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(1, "Assets\WallRound_Black.png", #PB_Sprite_AlphaBlending)
   
   ;Caisse
-  LoadSprite(2, "assets\Crate_Yellow.png", #PB_Sprite_AlphaBlending)
-  LoadSprite(3, "assets\Crate_Red.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(2, "Assets\Crate_Yellow.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(3, "Assets\Crate_Red.png", #PB_Sprite_AlphaBlending)
   
   ;Cible
-  LoadSprite(8, "assets\EndPoint_Yellow.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(8, "Assets\EndPoint_Yellow.png", #PB_Sprite_AlphaBlending)
   
   ;Joueur à gauche
-  LoadSprite(10, "assets\Character1.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(10, "Assets\Character1.png", #PB_Sprite_AlphaBlending)
   
   ;Joueur à droite
-  LoadSprite(11, "assets\Character2.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(11, "Assets\Character2.png", #PB_Sprite_AlphaBlending)
   
   ;Joueur vers le bas
-  LoadSprite(12, "assets\Character4.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(12, "Assets\Character4.png", #PB_Sprite_AlphaBlending)
   
   ;Joueur vers le haut
-  LoadSprite(13, "assets\Character7.png", #PB_Sprite_AlphaBlending)
+  LoadSprite(13, "Assets\Character7.png", #PB_Sprite_AlphaBlending)
 EndProcedure
 
 Procedure SceneNew()
@@ -272,7 +272,6 @@ EndProcedure
 
 Procedure SceneRename()
   Protected Buffer.s = LevelName
-  
   
   LevelName = InputRequester("Renommer une scéne", "Donner un nouveau nom à la scéne " + LevelName, LevelName)
   
@@ -354,9 +353,9 @@ Procedure Exit()
   EndIf
   End
 EndProcedure
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 355
-; FirstLine = 303
+; IDE Options = PureBasic 5.42 Beta 3 LTS (Windows - x86)
+; CursorPosition = 208
+; FirstLine = 198
 ; Folding = --
 ; EnableUnicode
 ; EnableXP
