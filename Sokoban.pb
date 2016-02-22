@@ -12,6 +12,7 @@ EndEnumeration
 Enumeration Gadget
   #Restart
   #Level
+  #LevelNames
 EndEnumeration
 
 ;grille de 12 x 10 - Dimension d'une case 64 x 64
@@ -48,10 +49,10 @@ Procedure Prologue()
   ;Initialisation
   InitSprite() : InitKeyboard() : InitMouse() : UsePNGImageDecoder()
   
-  LoadFont(#FontGlobal, "", 18)
+  LoadFont(#FontGlobal, "", 16)
   SetGadgetFont(#PB_All, FontID(#FontGlobal))
   
-  ;Creation du screen
+  ;-Fenetre de l'application
   OpenWindow(0, 0, 0, GridWidth, GridHeight + 50, "Sokoban", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
   
   ;Bouton Replay
@@ -62,17 +63,23 @@ Procedure Prologue()
   DrawImage(ImageID(Image), 0, 0)
   StopDrawing()
   GadgetToolTip(#Restart, "Replay level")
-  BindGadgetEvent(#Restart, @SceneLoad(), #PB_EventType_LeftClick)
-  
+    
   ;Affichage du niveau en cours 
-  TextGadget(#Level, 100, GridHeight + 10, 150, 32, "")
-  OpenWindowedScreen(WindowID(0), 0, 0, GridWidth, GridHeight) 
+  TextGadget(#Level, 100, GridHeight + 12, 150, 32, "")
+  
+  ;Liste des niveaux
+  ComboBoxGadget(#LevelNames, GridWidth - 210, GridHeight + 10, 200, 32)
+  
+  ;-Triggers
+  BindGadgetEvent(#Restart, @SceneLoad(), #PB_EventType_LeftClick)
+  BindGadgetEvent(#LevelNames, @SceneLoad())
   
   ;Lecture de tous les niveaux
   If ExamineDirectory(0, Directory, "*.grid.json")  
     While NextDirectoryEntry(0)
       If DirectoryEntryType(0) = #PB_DirectoryEntry_File
-        LevelNames(Index) =  DirectoryEntryName(0) 
+        LevelNames(Index) =  DirectoryEntryName(0)
+        AddGadgetItem(#LevelNames, -1, LevelNames(Index))
       EndIf
       Index + 1
       ReDim LevelNames(Index)
@@ -80,11 +87,14 @@ Procedure Prologue()
     FinishDirectory(0)
     
     Index = 0
+    SetGadgetState(#LevelNames, 0)
     CountLevels = ArraySize(LevelNames())
-    
+          
+    ;-[2D]
+    OpenWindowedScreen(WindowID(0), 0, 0, GridWidth, GridHeight) 
     SpritesLoad()  
     SceneLoad()
-    Update()
+    Update() 
   EndIf
   
   Exit()
@@ -305,6 +315,7 @@ Procedure Update()
     If Player\CountTargets = Player\CountSucess 
       If Index < ArraySize(LevelNames()) - 1
         Index + 1
+        SetGadgetState(#LevelNames, Index)
         SceneLoad()
       Else
         Debug "Vous avez gagné"
@@ -346,6 +357,7 @@ Procedure SpritesLoad()
 EndProcedure 
 
 Procedure SceneLoad()
+  Index = GetGadgetState(#LevelNames)
   LevelName =  GetCurrentDirectory() + "Levels\" + StringField(LevelNames(Index), 1, ".")
   
   SetGadgetText(#Level, "Level " + Str(Index + 1) + "/" + Str(CountLevels))
@@ -359,6 +371,7 @@ Procedure SceneLoad()
     LoadJSON(#JSONFile, LevelName + ".setup.json", #PB_JSON_NoCase)
     ExtractJSONStructure(JSONValue(#JSONFile), Player, NewSprite)
   EndIf
+SetActiveGadget(#Level)  
 EndProcedure
 
 Procedure Exit()
@@ -366,8 +379,8 @@ Procedure Exit()
 EndProcedure
 
 ; IDE Options = PureBasic 5.42 Beta 3 LTS (Windows - x86)
-; CursorPosition = 58
-; FirstLine = 55
+; CursorPosition = 317
+; FirstLine = 291
 ; Folding = -
 ; EnableUnicode
 ; EnableXP
